@@ -19,6 +19,9 @@ public class MovieService {
     public List<Movie> getAllMovie() {
         return movieRepository.findAll();
     }
+    public List<Movie> getAllMovieByTitle(String title) {
+        return movieRepository.findByTitle(title);
+    }
 
     public Movie createMovie(@RequestBody Movie newMovie) {
         return movieRepository.save(newMovie);
