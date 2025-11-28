@@ -20,6 +20,21 @@ public class MovieController {
         return movieService.getAllMovie();
     }
 
+    @GetMapping("/title/{title}")
+    public List<Movie> getMoviesByTitle(String title) {
+        return movieService.getAllMovieByTitle(title);
+    }
+
+    @GetMapping("/genre/{genre}")
+    public List<Movie> getMoviesByGenre(String genre) {
+        return movieService.getAllMovieByGenre(genre);
+    }
+
+    @GetMapping("/rating/{rating}")
+    public List<Movie> getMoviesByRating(Double rating) {
+        return movieService.getAllMovieByRating(rating);
+    }
+
     @GetMapping("/{id}")
     public Movie getMovieById(@PathVariable Integer id){
         return movieService.getMovie(id);

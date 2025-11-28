@@ -22,6 +22,12 @@ public class MovieService {
     public List<Movie> getAllMovieByTitle(String title) {
         return movieRepository.findByTitle(title);
     }
+    public List<Movie> getAllMovieByGenre(String genre) {
+        return movieRepository.findByGenre(genre);
+    }
+    public List<Movie> getAllMovieByRating(Double rating) {
+        return movieRepository.findByRating(rating);
+    }
 
     public Movie createMovie(@RequestBody Movie newMovie) {
         return movieRepository.save(newMovie);
