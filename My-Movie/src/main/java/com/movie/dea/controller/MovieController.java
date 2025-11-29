@@ -4,6 +4,7 @@ import com.movie.dea.entity.Movie;
 import com.movie.dea.service.MovieService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -21,23 +22,28 @@ public class MovieController {
     }
 
     @GetMapping("/title/{title}")
-    public List<Movie> getMoviesByTitle(String title) {
+    public List<Movie> getMoviesByTitle(@PathVariable String title) {
         return movieService.getAllMovieByTitle(title);
     }
 
     @GetMapping("/genre/{genre}")
-    public List<Movie> getMoviesByGenre(String genre) {
+    public List<Movie> getMoviesByGenre(@PathVariable String genre) {
         return movieService.getAllMovieByGenre(genre);
     }
 
     @GetMapping("/rating/{rating}")
-    public List<Movie> getMoviesByRating(Double rating) {
-        return movieService.getAllMovieByRating(rating);
+    public List<Movie> getAllMoviesByMinRating(@PathVariable Double minRating) {
+        return movieService.getAllMovieByMinRating(minRating);
     }
 
     @GetMapping("/{id}")
     public Movie getMovieById(@PathVariable Integer id){
         return movieService.getMovie(id);
+    }
+
+    @GetMapping("/date/{releaseDate}")
+    public List<Movie> getMovieByDate(@PathVariable LocalDate releaseDate){
+        return movieService.getAllMovieByReleaseDate(releaseDate);
     }
 
     @PostMapping("/add")

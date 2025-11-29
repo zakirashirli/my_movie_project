@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,8 +26,12 @@ public class MovieService {
     public List<Movie> getAllMovieByGenre(String genre) {
         return movieRepository.findByGenre(genre);
     }
-    public List<Movie> getAllMovieByRating(Double rating) {
-        return movieRepository.findByRating(rating);
+    public List<Movie> getAllMovieByMinRating(Double minRating) {
+        return movieRepository.findByMinRating(minRating);
+    }
+
+    public List<Movie> getAllMovieByReleaseDate(LocalDate releaseDate){
+        return movieRepository.findByReleaseDate(releaseDate);
     }
 
     public Movie createMovie(@RequestBody Movie newMovie) {
@@ -37,6 +42,8 @@ public class MovieService {
         return movieRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("No such a movie in db: " + id));
     }
+
+
 
     public Movie updateMovie(@PathVariable Integer id, @RequestBody Movie updatedMovie) {
         return movieRepository.findById(id)
