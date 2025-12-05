@@ -2,6 +2,7 @@ package com.movie.dea.controller;
 
 import com.movie.dea.entity.Movie;
 import com.movie.dea.service.MovieService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -14,6 +15,14 @@ public class MovieController {
 
     public MovieController(MovieService movieService) {
         this.movieService = movieService;
+    }
+
+    @GetMapping("/pagination")
+    public Page<Movie> getPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ) {
+        return movieService.getMoviesByPage(page, size);
     }
 
     @GetMapping("/all")
@@ -31,7 +40,7 @@ public class MovieController {
         return movieService.getAllMovieByGenre(genre);
     }
 
-    @GetMapping("/rating/{rating}")
+    @GetMapping("/rating/{minRating}")
     public List<Movie> getAllMoviesByMinRating(@PathVariable Double minRating) {
         return movieService.getAllMovieByMinRating(minRating);
     }

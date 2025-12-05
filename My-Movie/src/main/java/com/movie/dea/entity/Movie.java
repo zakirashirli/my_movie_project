@@ -1,10 +1,13 @@
 package com.movie.dea.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 
 @Entity
+@Data
 @Table(name = "movies")
 public class Movie {
     @Id

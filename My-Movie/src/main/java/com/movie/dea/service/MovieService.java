@@ -2,9 +2,11 @@ package com.movie.dea.service;
 
 import com.movie.dea.entity.Movie;
 import com.movie.dea.repository.MovieRepository;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,17 +22,16 @@ public class MovieService {
     public List<Movie> getAllMovie() {
         return movieRepository.findAll();
     }
-    public List<Movie> getAllMovieByTitle(String title) {
+    public List<Movie> getAllMovieByTitle(@PathVariable String title) {
         return movieRepository.findByTitle(title);
     }
-    public List<Movie> getAllMovieByGenre(String genre) {
+    public List<Movie> getAllMovieByGenre(@PathVariable String genre) {
         return movieRepository.findByGenre(genre);
     }
-    public List<Movie> getAllMovieByMinRating(Double minRating) {
+    public List<Movie> getAllMovieByMinRating(@PathVariable Double minRating) {
         return movieRepository.findByMinRating(minRating);
     }
-
-    public List<Movie> getAllMovieByReleaseDate(LocalDate releaseDate){
+    public List<Movie> getAllMovieByReleaseDate(@PathVariable LocalDate releaseDate){
         return movieRepository.findByReleaseDate(releaseDate);
     }
 
@@ -43,7 +44,10 @@ public class MovieService {
                 .orElseThrow(()-> new RuntimeException("No such a movie in db: " + id));
     }
 
-
+    public Page<Movie> getMoviesByPage(@RequestParam int page, @RequestParam int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return movieRepository.findAll(pageable);
+    }
 
     public Movie updateMovie(@PathVariable Integer id, @RequestBody Movie updatedMovie) {
         return movieRepository.findById(id)
