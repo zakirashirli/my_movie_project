@@ -7,12 +7,18 @@
 <body>
 <h2>Edit Movie</h2>
 
-<form th:action="@{/movies}" th:object="${movie}" method="post">
+<form th:action="@{/movies}" th:object="${movieForm}" method="post">
     <input type="hidden" th:field="*{id}">
 
     <div>
         Title:
-        <input type="text" th:field="*{title}" /> <br>
+        <input type="text" th:field="*{title}" />
+        <div style="color:red"
+             th:if="${#fields.hasErrors('title')}"
+             th:errors="*{title}">
+
+        </div>
+        <br>
     </div>
     <div>
         Genre <input type="text" th:field="*{genre}" /> <br>

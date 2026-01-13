@@ -1,5 +1,6 @@
 package com.movie.dea.controller;
 
+import com.movie.dea.dto.MovieForm;
 import com.movie.dea.entity.Movie;
 import com.movie.dea.service.MovieService;
 
@@ -33,15 +34,23 @@ public class MoviePageController { // controller UI
     // формат добавлния
     @GetMapping("/new")
     public String form(Model model){
-        model.addAttribute("movie", new Movie());
+        model.addAttribute("movieForm", new MovieForm());
         return "movies/new";
     }
 
     @PostMapping
-    public String save(@Valid @ModelAttribute Movie movie, BindingResult bindingResult) {
+    public String save(@Valid @ModelAttribute("movieForm") MovieForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "movies/new";
+            return  form.getId() == null ? "movies/new" : "movies/edit";
+        }
+
+        Movie movie;
+
+        if (form.getId() == null) {
+            movie = new Movie();
+        } else {
+            movie = movieService.getMovie(form.getId());
         }
 
         movieService.createMovie(movie);
@@ -51,7 +60,17 @@ public class MoviePageController { // controller UI
     // формат обновлении
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable Integer id,Model model){
-        model.addAttribute("movie", movieService.getMovie(id));
+
+        Movie movie = movieService.getMovie(id);
+        MovieForm form = new MovieForm();
+        form.setId(movie.getId());
+        form.setTitle(movie.getTitle());
+        form.setGenre(movie.getGenre());
+        form.setRating(movie.getRating());
+        form.setDuration(movie.getDuration());
+        form.setReleaseDate(movie.getReleaseDate());
+
+        model.addAttribute("movieForm", form);
         return "movies/edit";
     }
 
