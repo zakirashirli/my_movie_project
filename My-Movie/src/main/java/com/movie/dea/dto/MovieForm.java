@@ -6,7 +6,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+
 public class MovieForm { // for UI
 
     private Integer id;

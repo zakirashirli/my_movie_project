@@ -15,15 +15,15 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Title is required!")
+//    @NotBlank(message = "Title is required!")
     private String title;
-    @NotBlank(message = "Genre is required!")
+//    @NotBlank(message = "Genre is required!")
     private String genre;
-    @NotNull(message = "dont leave empty")
+//    @NotNull(message = "dont leave empty")
     private LocalDate releaseDate;
-    @NotNull(message = "dont leave empty")
+//    @NotNull(message = "dont leave empty")
     private Double rating;
-    @NotBlank(message = "Duration is required!")
+//    @NotBlank(message = "Duration is required!")
     private String duration;
 
     public Movie() {

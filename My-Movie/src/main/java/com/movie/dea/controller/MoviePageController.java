@@ -5,10 +5,13 @@ import com.movie.dea.entity.Movie;
 import com.movie.dea.service.MovieService;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/movies")
@@ -23,11 +26,21 @@ public class MoviePageController { // controller UI
     public String list(
             @RequestParam(required = false)String title,
             @RequestParam(required = false)String genre,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
             Model model
     ) {
+        Sort sort = direction.equals("asc")
+                ? Sort.by(sortBy).ascending() // от меньшего к большему
+                : Sort.by(sortBy).descending(); // от большего к меньшему
+
+        List<Movie> movies = movieService.getAllMovie(sort); // ?
+
         model.addAttribute("movies", movieService.search(title, genre));
         model.addAttribute("title", title);
         model.addAttribute("genre", genre);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("direction", direction);
         return "movies/list";
     }
 
@@ -52,6 +65,14 @@ public class MoviePageController { // controller UI
         } else {
             movie = movieService.getMovie(form.getId());
         }
+
+       // add
+        movie.setTitle(form.getTitle());
+        movie.setGenre(form.getGenre());
+        movie.setRating(form.getRating());
+        movie.setDuration(form.getDuration());
+        movie.setReleaseDate(form.getReleaseDate());
+
 
         movieService.createMovie(movie);
         return "redirect:/movies";

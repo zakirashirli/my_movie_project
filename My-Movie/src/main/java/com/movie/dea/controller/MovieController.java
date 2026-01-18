@@ -25,10 +25,10 @@ public class MovieController {
         return movieService.getMoviesByPage(page    , size);
     }
 
-    @GetMapping("/all")
-    public List<Movie> getMovies(){
-        return movieService.getAllMovie();
-    }
+//    @GetMapping("/all")
+//    public List<Movie> getMovies(){
+//        return movieService.getAllMovie(sort);
+//    }
 
     @GetMapping("/title/{title}")
     public List<Movie> getMoviesByTitle(@PathVariable String title) {

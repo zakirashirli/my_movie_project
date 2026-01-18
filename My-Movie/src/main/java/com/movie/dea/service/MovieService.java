@@ -19,7 +19,7 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
-    public List<Movie> getAllMovie() {
+    public List<Movie> getAllMovie(Sort sort) {
         return movieRepository.findAll();
     }
     public List<Movie> getAllMovieByTitle(@PathVariable String title) {
