@@ -1,6 +1,7 @@
 package com.movie.dea.service;
 
 import com.movie.dea.entity.Movie;
+import com.movie.dea.exception.MovieNotFoundException;
 import com.movie.dea.repository.MovieRepository;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class MovieService {
 
     public Movie getMovie(@PathVariable Integer id) {
         return movieRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("No such a movie in db: " + id));
+                .orElseThrow(()-> new MovieNotFoundException("No such a movie in db with the following id: " + id));
     }
 
     public Page<Movie> getMoviesByPage(@RequestParam int page, @RequestParam int size){
