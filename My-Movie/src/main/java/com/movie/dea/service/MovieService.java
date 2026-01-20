@@ -19,7 +19,7 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
-    public List<Movie> getAllMovie(Sort sort) {
+    public List<Movie> getAllMovie() {
         return movieRepository.findAll();
     }
     public List<Movie> getAllMovieByTitle(@PathVariable String title) {
@@ -71,7 +71,7 @@ public class MovieService {
     }
 
 
-    public List<Movie> search(@PathVariable String title, @PathVariable String genre) {
+    public List<Movie> search(@PathVariable String title, @PathVariable String genre, Sort sort) {
         if (title != null && !title.isBlank()) {
             return movieRepository.findByTitleContainingIgnoreCase(title);
         }
@@ -80,7 +80,7 @@ public class MovieService {
             return movieRepository.findByGenre(genre);
         }
 
-        return movieRepository.findAll();
+        return movieRepository.findAll(sort);
     }
 
 

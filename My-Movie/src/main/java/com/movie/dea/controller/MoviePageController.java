@@ -34,9 +34,9 @@ public class MoviePageController { // controller UI
                 ? Sort.by(sortBy).ascending() // от меньшего к большему
                 : Sort.by(sortBy).descending(); // от большего к меньшему
 
-        List<Movie> movies = movieService.getAllMovie(sort); // ?
+        List<Movie> movies = movieService.getAllMovie(); // ?
 
-        model.addAttribute("movies", movieService.search(title, genre));
+        model.addAttribute("movies", movieService.search(title, genre, sort));
         model.addAttribute("title", title);
         model.addAttribute("genre", genre);
         model.addAttribute("sortBy", sortBy);
