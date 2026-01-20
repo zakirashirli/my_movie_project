@@ -25,13 +25,13 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User getUserById(@PathVariable Integer id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No user with id" + id));
+    public User getUserById(@PathVariable Integer user_id) {
+        return userRepository.findById(user_id)
+                .orElseThrow(() -> new RuntimeException("No user with user_id" + user_id));
     }
 
-    public User update(@PathVariable Integer id, @RequestBody User updatedUser) {
-        return userRepository.findById(id)
+    public User update(@PathVariable Integer user_id, @RequestBody User updatedUser) {
+        return userRepository.findById(user_id)
                 .map(existing -> {
                     existing.setUsername(updatedUser.getUsername());
                     existing.setPassword(updatedUser.getPassword());
@@ -39,10 +39,10 @@ public class UserService {
                     existing.setAge(updatedUser.getAge());
                     return userRepository.save(existing);
                 })
-                .orElseThrow(() -> new RuntimeException("No user with id" + id));
+                .orElseThrow(() -> new RuntimeException("No user with id" + user_id));
     }
 
-    public void delete(@PathVariable Integer id) {
-        userRepository.deleteById(id);
+    public void delete(@PathVariable Integer user_id) {
+        userRepository.deleteById(user_id);
     }
 }
