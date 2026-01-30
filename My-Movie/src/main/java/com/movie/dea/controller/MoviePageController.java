@@ -4,6 +4,7 @@ import com.movie.dea.dto.MovieForm;
 import com.movie.dea.entity.Movie;
 import com.movie.dea.service.MovieService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/movies")
+@Tag(name="Movies", description = "Movie management API")
 public class MoviePageController { // controller UI
     private final MovieService movieService;
 

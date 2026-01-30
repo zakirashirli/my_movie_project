@@ -2,6 +2,7 @@ package com.movie.dea.controller;
 
 import com.movie.dea.entity.Movie;
 import com.movie.dea.service.MovieService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +26,11 @@ public class MovieController {
         return movieService.getMoviesByPage(page    , size);
     }
 
-//    @GetMapping("/all")
-//    public List<Movie> getMovies(){
-//        return movieService.getAllMovie(sort);
-//    }
+    @Operation(summary = "Get All Movies")
+    @GetMapping("/all")
+    public List<Movie> getMovies(){
+        return movieService.getAllMovie();
+    }
 
     @GetMapping("/title/{title}")
     public List<Movie> getMoviesByTitle(@PathVariable String title) {
