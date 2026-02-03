@@ -7,28 +7,21 @@ import jakarta.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer user_id;
+    private Integer id;
+    @Column(unique = true, nullable = false) // "" null
     private String username;
+    @Column(nullable = false)
     private String password;
-    private String phone_number;
-    private Integer age;
+    @Column(nullable = false)
+    private String role;
 
-    public User() {
+
+    public Integer getId() {
+        return id;
     }
 
-    public User(Integer age, String phone_number, String username, String password) {
-        this.age = age;
-        this.phone_number = phone_number;
-        this.username = username;
-        this.password = password;
-    }
-
-    public Integer getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -47,19 +40,11 @@ public class User {
         this.password = password;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getRole() {
+        return role;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setRole(String role) {
+        this.role = role;
     }
 }
