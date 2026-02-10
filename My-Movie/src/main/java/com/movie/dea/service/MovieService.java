@@ -1,5 +1,6 @@
 package com.movie.dea.service;
 
+import com.movie.dea.dto.MovieForm;
 import com.movie.dea.entity.Movie;
 import com.movie.dea.exception.MovieNotFoundException;
 import com.movie.dea.repository.MovieRepository;
@@ -20,12 +21,12 @@ public class MovieService {
     public List<Movie> getAllMovie() {
         return movieRepository.findAll();
     }
-    public List<Movie> getAllMovieByTitle(String title) {
-        return movieRepository.findByTitle(title);
-    }
-    public List<Movie> getAllMovieByGenre(String genre) {
-        return movieRepository.findByGenre(genre);
-    }
+//    public List<Movie> getAllMovieByTitle(String title) {
+//        return movieRepository.findByTitle(title);
+//    }
+//    public List<Movie> getAllMovieByGenre(String genre) {
+//        return movieRepository.findByGenre(genre);
+//    }
     public List<Movie> getAllMovieByMinRating(Double minRating) {
         return movieRepository.findByMinRating(minRating);
     }
@@ -70,17 +71,34 @@ public class MovieService {
     }
 
 
-    public List<Movie> search(String title, String genre, Sort sort) {
-        if (title != null && !title.isBlank()) {
-            return movieRepository.findByTitleContainingIgnoreCase(title);
-        }
+//    public List<Movie> search(String title, String genre, Sort sort) {
+//        if (title != null && !title.isBlank()) {
+//            return movieRepository.findByTitleContainingIgnoreCase(title);
+//        }
+//
+//        if (genre != null && !genre.isBlank()) {
+//            return movieRepository.findByGenre(genre);
+//        }
+//
+//        return movieRepository.findAll(sort);
+//    }
 
-        if (genre != null && !genre.isBlank()) {
-            return movieRepository.findByGenre(genre);
-        }
+    public Page<Movie> searchPaginated(
+            String title,
+            String genre,
+            int page,
+            int size,
+            Sort sort
+    ) {
+        Pageable pageable = PageRequest.of(page, size, sort);
 
-        return movieRepository.findAll(sort);
+        String safeTitle = (title == null) ? "" : title;
+        String safeGenre = (genre == null) ? "" : genre;
+
+        return movieRepository.findByTitleContainingIgnoreCaseAndGenreContainingIgnoreCase(
+                safeTitle,
+                safeGenre,
+                pageable
+        );
     }
-
-
 }

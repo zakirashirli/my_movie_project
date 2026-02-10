@@ -6,6 +6,7 @@ import com.movie.dea.service.MovieService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,17 +30,51 @@ public class MoviePageController { // controller UI
     public String list(
             @RequestParam(required = false)String title,
             @RequestParam(required = false)String genre,
+            @RequestParam(defaultValue = "0")int page,
+            @RequestParam(defaultValue = "5")int size,
             @RequestParam(defaultValue = "title") String sortBy,
             @RequestParam(defaultValue = "asc") String direction,
             Model model
     ) {
-        Sort sort = direction.equals("asc")
+
+        if (page < 0) {
+            page=0;
+        }
+
+//        title = (title == null) ? "" : title;
+//        genre = (genre == null) ? "" : genre;
+//        sortBy = (sortBy == null) ? "title" : sortBy;
+//        direction = (direction == null) ? "asc" : direction;
+
+        Sort sort = direction.equalsIgnoreCase("asc")
                 ? Sort.by(sortBy).ascending() // от меньшего к большему
                 : Sort.by(sortBy).descending(); // от большего к меньшему
 
-        List<Movie> movies = movieService.getAllMovie(); // ?
+        Page<Movie> movies = movieService.searchPaginated(
+                title,
+                genre,
+                page,
+                size,
+                sort
+        );
 
-        model.addAttribute("movies", movieService.search(title, genre, sort));
+        if (page >= movies.getTotalPages() && movies.getTotalPages() > 0) {
+            page = movies.getTotalPages() - 1;
+            movies = movieService.searchPaginated(
+                    title,
+                    genre,
+                    page,
+                    size,
+                    sort
+            );
+        }
+
+        model.addAttribute("movies", movies.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", movies.getTotalPages());
+        model.addAttribute("size", size);
+
+
         model.addAttribute("title", title);
         model.addAttribute("genre", genre);
         model.addAttribute("sortBy", sortBy);

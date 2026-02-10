@@ -266,10 +266,14 @@
 
 <a href="/movies/new">Add Movie</a>
 
-<form method="get" action="/movies">
+<form method="get" th:action="@{/movies}">
     <a th:href="@{/movies(
         sortBy='title',
-        direction=${sortBy == 'title' and direction == 'asc' ? 'desc' : 'asc'}
+        direction=${sortBy == 'title' and direction == 'asc' ? 'desc' : 'asc'},
+        title=${title},
+        genre=${genre},
+        page=${currentPage},
+        size=${size}
     )}"> sort
         <span th:if="${sortBy == 'title'}"
               th:text="${direction == 'asc' ? '▲' : '▼'}"  ></span>
@@ -317,6 +321,44 @@
         </td>
     </tr>
 </table>
+
+<div class="mt-3">
+    <a th:if="${currentPage > 0}"
+       th:href="@{/movies(
+       page=${currentPage - 1},
+       size=${size},
+       title=${title},
+       genre=${genre},
+       sortBy=${sortBy},
+       direction=${direction})}">
+        ←
+    </a>
+
+    <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+        <a th:href="@{/movies(
+        page=${i},
+        size=${size},
+        title=${title},
+        genre=${genre},
+        sortBy=${sortBy},
+        direction=${direction})}"
+           th:text="${i + 1}"
+           th:style="${i == currentPage} ? 'font-weight:bold' : ''">
+        </a>
+
+    </span>
+
+    <a th:if="${currentPage + 1 < totalPages}"
+       th:href="@{/movies(
+       page=${currentPage + 1},
+       size=${size},
+       title=${title},
+       genre=${genre},
+       sortBy=${sortBy},
+       direction=${direction})}">
+        →
+    </a>
+</div>
 
 
 <!-- Notification -->

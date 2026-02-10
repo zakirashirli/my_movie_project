@@ -32,15 +32,15 @@ public class MovieController {
         return movieService.getAllMovie();
     }
 
-    @GetMapping("/title/{title}")
-    public List<Movie> getMoviesByTitle(@PathVariable String title) {
-        return movieService.getAllMovieByTitle(title);
-    }
-
-    @GetMapping("/genre/{genre}")
-    public List<Movie> getMoviesByGenre(@PathVariable String genre) {
-        return movieService.getAllMovieByGenre(genre);
-    }
+//    @GetMapping("/title/{title}")
+//    public List<Movie> getMoviesByTitle(@PathVariable String title) {
+//        return movieService.getAllMovieByTitle(title);
+//    }
+//
+//    @GetMapping("/genre/{genre}")
+//    public List<Movie> getMoviesByGenre(@PathVariable String genre) {
+//        return movieService.getAllMovieByGenre(genre);
+//    }
 
     @GetMapping("/rating/{minRating}")
     public List<Movie> getAllMoviesByMinRating(@PathVariable Double minRating) {
