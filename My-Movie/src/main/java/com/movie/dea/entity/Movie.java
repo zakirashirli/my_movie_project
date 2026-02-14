@@ -8,7 +8,6 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Entity
-@Data
 @Table(name = "movies")
 public class Movie {
     @Id
@@ -26,6 +25,10 @@ public class Movie {
 //    @NotBlank(message = "Duration is required!")
     private String duration;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "director_id") // Foreign key (FK) (PK) primary key
+    private Director director;
+
     public Movie() {
 
     }
@@ -37,6 +40,14 @@ public class Movie {
         this.duration = duration;
         this.rating = rating;
         this.releaseDate = releaseDate;
+    }
+
+    public Director getDirector() {
+        return director;
+    }
+
+    public void setDirector(Director director) {
+        this.director = director;
     }
 
     public LocalDate getReleaseDate() {
